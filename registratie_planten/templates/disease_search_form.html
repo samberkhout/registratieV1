@@ -1,0 +1,17 @@
+﻿<html>
+<head>
+    <title>Ziekte Zoeken</title>
+    <link rel="stylesheet" type="text/css" href="/static/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Ziekte Zoeken</h1>
+        <form method="post" class="form">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="submit-button">Opslaan</button>
+        </form>
+        <a class="button" href="{% url 'home' %}">Terug naar Home</a>
+    </div>
+</body>
+</html>

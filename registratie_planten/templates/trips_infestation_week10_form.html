@@ -1,0 +1,20 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Trips Aantasting Invoegen (Week 10)</title>
+    <link rel="stylesheet" type="text/css" href="/static/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Trips Aantasting Invoegen (Week 10)</h1>
+        <form method="post" class="form">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="submit-button">Opslaan</button>
+        </form>
+        <a class="button" href="{% url 'home' %}">Terug naar Home</a>
+        <a class="button" href="{% url 'home' %}">Terug naar Home</a>
+
+    </div>
+</body>
+</html>
