@@ -37,8 +37,6 @@ class TripsInfestationWeek10(models.Model):
     soort = models.CharField(max_length=100)
     aantal_planten_weg_gooi = models.IntegerField()
     aantal_planten_schade = models.IntegerField()
-    var_kleur = models.CharField(max_length=255)
-
     def __str__(self):
         return f"{self.soort} - Week {self.lever_week}"
 
