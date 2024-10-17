@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
 from django.views import View
 from .forms import PottingForm, DiseaseSearchForm, TripsInfestationWijdezettingForm, TripsInfestationWeek10Form
+from .models import Soort
 
+from django.http import JsonResponse
 
-# Views
 class HomeView(View):
     def get(self, request):
         return render(request, 'home.html')
@@ -59,3 +60,5 @@ class TripsInfestationWijdezettingView(View):
             form.save()
             return redirect('home')
         return render(request, 'trips_infestation_wijdezetting_form.html', {'form': form})
+
+
