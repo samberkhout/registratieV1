@@ -3,13 +3,58 @@
 <head>
     <title>Trips Aantasting Invoegen (Wijdezetting)</title>
     <link rel="stylesheet" type="text/css" href="/static/styles.css">
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+    const searchInput = document.getElementById('search-input');
+    const suggestionsList = document.getElementById('suggestions');
+    const soortInput = document.getElementById('id_soort');  // Hidden input for "soort" ID
+
+    searchInput.addEventListener('input', function() {
+        const query = this.value.toLowerCase();
+        suggestionsList.innerHTML = '';
+
+        if (query.length > 1) {
+            fetch(`/search-soorten/?query=${query}`)
+                .then(response => response.json())
+                .then(data => {
+                    data.results.forEach(result => {
+                        const li = document.createElement('li');
+                        li.textContent = result.name;
+                        li.dataset.id = result.id;  // Store the "soort" ID
+                        li.onclick = () => {
+                            searchInput.value = result.name;
+                            soortInput.value = result.id;  // Set the selected "soort" ID in the form
+                            suggestionsList.innerHTML = '';
+                        };
+                        suggestionsList.appendChild(li);
+                    });
+                });
+        }
+    });
+});
+     function toggleInstructions() {
+            var instructions = document.getElementById("instructions");
+            if (instructions.style.display === "none") {
+                instructions.style.display = "block";
+            } else {
+                instructions.style.display = "none";
+            }
+        }
+</script>
 </head>
 <body>
     <div class="container">
         <h1>Trips Aantasting Invoegen (Wijdezetting)</h1>
+        <button onclick="toggleInstructions()" class="instructions-button">Wat te doen bij deze invoer?</button>
+        <div id="instructions">
+            <p>hier kunt u invoeren welke soort u checkt, hoeveel planten geen water hebben en hoeveel planten zijn weggegooid omdat ze zien zijn. </p>
+        </div>
+        <input type="text" id="search-input" placeholder="Zoek naar soort...">
+<ul id="suggestions"></ul>
         <form method="post" class="form">
             {% csrf_token %}
             {{ form.as_p }}
+               <input type="hidden" name="soort" id="id_soort">
             <button type="submit" class="submit-button">Opslaan</button>
         </form>
         <a class="button" href="{% url 'home' %}">Terug naar Home</a>

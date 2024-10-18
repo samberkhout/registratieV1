@@ -57,7 +57,6 @@ class Potting(models.Model):
 
 class DiseaseSearch(models.Model):
     leverweek = models.IntegerField()
-    oppot_week = models.IntegerField()
     soort = models.ForeignKey(Soort, on_delete=models.CASCADE)
     hoeveel_geen_water = models.IntegerField()
     aantal_ziek_weggegooid = models.IntegerField()

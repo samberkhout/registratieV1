@@ -18,13 +18,15 @@ from django.contrib import admin
 from django.urls import path
 
 from registratie_planten.views import HomeView, PottingView, DiseaseSearchView, \
-    TripsInfestationWijdezettingView, TripsInfestationWeek10View
+    TripsInfestationWijdezettingView, TripsInfestationWeek10View, search_soorten
 
 urlpatterns = [
+    path('admin/', admin.site.urls),
     path('', HomeView.as_view(), name='home'),
     path('oppot-invoeren/', PottingView.as_view(), name='potting'),
     path('ziekte-zoeken/', DiseaseSearchView.as_view(), name='disease_search'),
     path('trips-aantasting-invoegen-wk10/', TripsInfestationWeek10View.as_view(), name='trips_infestation_week10'),
     path('trips-aantasting-invoegen-wijdezetting/', TripsInfestationWijdezettingView.as_view(),
          name='trips_infestation_wijdezetting'),
+    path('search-soorten/', search_soorten, name='search_soorten'),
     ]
