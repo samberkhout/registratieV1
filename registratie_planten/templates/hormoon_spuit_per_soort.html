@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}hormoon spuit per soort{% endblock %}
+
+{% block content %}
+    <h1>hormoon spuit per soort</h1>
+    <button onclick="toggleInstructions()" class="instructions-button">
+    <i class="fas fa-info-circle"></i> Wat te doen bij deze invoer?
+</button>
+<div id="instructions">
+    <p>Hier kunt u zoeken per soort hoeveel hormonen er gespoten moeten worden. zoek een soort en de hoeveelheid zal tonen. </p>
+</div>
+    <input type="text" id="search-input" placeholder="Zoek naar soort...">
+    <ul id="suggestions"></ul>
+
+    <input type="hidden" name="soort" id="id_soort">
+
+    <div id="hormoon-spuit"></div> <!-- This div will display the hormoon_spuit percentage -->
+    <div id="soort-id"></div>
+    <a class="button" href="{% url 'home' %}">Terug naar Home</a>
+{% endblock %}

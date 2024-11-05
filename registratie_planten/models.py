@@ -19,13 +19,15 @@ class Soort(models.Model):
     var_kleur = models.TextField(blank=True, null=True)
     var_planthoogte = models.TextField(blank=True, null=True)
     var_bloemgrootte = models.TextField(blank=True, null=True)
+    hormoon_spuit = models.DecimalField(null=True, max_digits=5, decimal_places=2, help_text="Percentage value (0.00 - 100.00)")
+
 
     def __str__(self):
         return self.naam
 
 
 class PlantenInfoWeek(models.Model):
-    name = models.ForeignKey(Soort, on_delete=models.CASCADE)
+    name = models.ForeignKey(Soort, on_delete=models.CASCADE )
     week_nummer = models.IntegerField(default=1)
     var_bladlengte = models.TextField(blank=True, null=True)
     var_vertakkingen = models.TextField(blank=True, null=True)
@@ -67,7 +69,7 @@ class DiseaseSearch(models.Model):
 
 class TripsInfestationWeek10(models.Model):
     datum = models.DateField(default=timezone.now)
-    oppot_week = models.IntegerField()
+    oppot_week = models.IntegerField(null=True, blank=True)
     lever_week = models.IntegerField()
     aantal_tafels = models.IntegerField()
     soort = models.ForeignKey(Soort, on_delete=models.CASCADE)
@@ -80,7 +82,7 @@ class TripsInfestationWeek10(models.Model):
 
 class TripsInfestationWijdezetting(models.Model):
     datum = models.DateField(default=timezone.now)
-    oppot_week = models.IntegerField()
+    oppot_week = models.IntegerField(null=True, blank=True)
     lever_week = models.IntegerField()
     aantal_tafels = models.IntegerField()
     soort = models.ForeignKey(Soort, on_delete=models.CASCADE)

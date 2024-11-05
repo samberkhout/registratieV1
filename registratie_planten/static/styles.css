@@ -12,6 +12,7 @@
     background-color: #ffffff;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    position: relative;
 }
 
 h1 {
@@ -27,24 +28,34 @@ h1 {
 .form p {
     margin-bottom: 10px;
 }
-/* Stijl voor de knop */
 .instructions-button {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background-color: #007BFF;
-    color: white;
-    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    background-color: #f1c40f; /* A yellow background to indicate info */
+    color: #333;
+    padding: 8px 12px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     font-size: 14px;
     text-decoration: none;
+    font-weight: bold;
+
+    /* Positioning the button */
+    position: absolute;
+    top: 10px;  /* Distance from the top */
+    right: 10px; /* Distance from the right */
+}
+
+.instructions-button i {
+    margin-right: 8px;  /* Space between icon and text */
+    font-size: 16px;    /* Icon size */
 }
 
 .instructions-button:hover {
-    background-color: #0056b3;
+    background-color: #d4ac0d; /* Darker yellow on hover */
 }
+
 
 /* Stijl voor het instructieblok */
 #instructions {
@@ -108,14 +119,17 @@ h1 {
 
 /* Suggestielijst */
 #suggestions {
+    position: absolute;
     list-style-type: none;
     margin: 0;
     padding: 0;
-    border: 1px solid #ccc;
+
     border-radius: 4px;
     max-height: 150px;
     overflow-y: auto;
     background-color: #fff;
+    width: calc(100% - 20px);
+
 }
 
 #suggestions li {

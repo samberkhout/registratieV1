@@ -12,7 +12,7 @@ class LeverancierAdmin(admin.ModelAdmin):
 
 @admin.register(Soort)
 class SoortAdmin(admin.ModelAdmin):
-    list_display = ('naam', 'leverancier', 'breeder_name', 'var_kleur', 'var_planthoogte', 'var_bloemgrootte')
+    list_display = ('naam', 'leverancier', 'breeder_name', 'var_kleur', 'var_planthoogte', 'var_bloemgrootte','hormoon_spuit')
     search_fields = ('naam', 'leverancier__naam')
     list_filter = ('leverancier',)
 

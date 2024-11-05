@@ -1,18 +1,14 @@
-﻿<!DOCTYPE html>
-<html>
-<head>
-    <title>Home</title>
-    <link rel="stylesheet" type="text/css" href="/static/styles.css">
-</head>
-<body>
-    <div class="container">
-        <h1>Welkom, welke actie wilt u uitvoeren:</h1>
-        <div class="actions">
-            <a class="button" href="{% url 'potting' %}">Oppot Invoeren</a><br>
-            <a class="button" href="{% url 'disease_search' %}">Ziekte Zoeken</a><br>
-            <a class="button" href="{% url 'trips_infestation_week10' %}">Trips Aantasting Invoegen (Week 10)</a><br>
-            <a class="button" href="{% url 'trips_infestation_wijdezetting' %}">Trips Aantasting Invoegen (Wijdezetting)</a><br>
-        </div>
-    </div>
-</body>
-</html>
+﻿{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<h1>Welkom, welke actie wilt u uitvoeren:</h1>
+<div class="actions">
+    <a class="button" href="{% url 'potting' %}">Oppot Invoeren</a><br>
+    <a class="button" href="{% url 'disease_search' %}">Ziekte Zoeken</a><br>
+    <a class="button" href="{% url 'trips_infestation_week10' %}">Trips Aantasting Invoegen (Week 10)</a><br>
+    <a class="button" href="{% url 'trips_infestation_wijdezetting' %}">Trips Aantasting Invoegen (Wijdezetting)</a><br>
+    <a class="button" href="{% url 'hormoon_spuit' %}">hormoon spuit hoeveelheid</a><br>
+</div>
+{% endblock %}

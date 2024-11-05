@@ -16,9 +16,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
+from django.urls import re_path
+from django.views.generic import RedirectView
+
 
 from registratie_planten.views import HomeView, PottingView, DiseaseSearchView, \
-    TripsInfestationWijdezettingView, TripsInfestationWeek10View, search_soorten
+    TripsInfestationWijdezettingView, TripsInfestationWeek10View, search_soorten, get_hormoon_spuit, \
+    HormoonSpuitView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,5 +34,8 @@ urlpatterns = [
     path('trips-aantasting-invoegen-wk10/', TripsInfestationWeek10View.as_view(), name='trips_infestation_week10'),
     path('trips-aantasting-invoegen-wijdezetting/', TripsInfestationWijdezettingView.as_view(),
          name='trips_infestation_wijdezetting'),
+    path('get-hormoon-spuit/', get_hormoon_spuit, name='get_hormoon_spuit'),
     path('search-soorten/', search_soorten, name='search_soorten'),
-    ]
+    path('hormoon_spuit/', HormoonSpuitView.as_view(), name='hormoon_spuit'),
+    re_path(r'^favicon\.ico$', RedirectView.as_view(url='/static/images/favicon.ico')),
+    ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

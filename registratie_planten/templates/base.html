@@ -1,0 +1,132 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Title{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" type="" href="{% static 'images/favicon.ico' %}">
+</head>
+<body>
+
+    <div class="container">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    {% block scripts %}
+    <script>
+        // Toggle instructions function in the global scope so that it can be accessed by the HTML elements.
+        function toggleInstructions() {
+            var instructions = document.getElementById("instructions");
+            if (instructions) {
+                instructions.style.display = (instructions.style.display === "none" || instructions.style.display === "") ? "block" : "none";
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // AJAX form submission for saving without page reload
+            const forms = document.querySelectorAll('.form');
+
+            forms.forEach(form => {
+                form.addEventListener('submit', function(event) {
+                    event.preventDefault(); // Block default form submission behavior
+
+                    const formData = new FormData(form);
+                    const csrfToken = formData.get('csrfmiddlewaretoken');
+
+                    fetch(form.action, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRFToken': csrfToken,
+                            'Accept': 'application/json'
+                        },
+                        body: formData
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data.success) {
+                            alert('Data is correct ingevoerd!');
+                            form.reset();  // Reset the form fields
+
+                            // Handmatige reset voor het verborgen input veld "soort"
+                            const soortInput = document.getElementById('id_soort');
+                            if (soortInput) {
+                                soortInput.value = ''; // Clear the hidden "soort" field
+                            }
+
+                            // Eventuele andere gerelateerde velden leegmaken, zoals de zoekinvoer
+                            const searchInput = document.getElementById('search-input');
+                            if (searchInput) {
+                                searchInput.value = ''; // Clear the search input
+                            }
+
+                            // Eventuele extra informatie-elementen leegmaken
+                            const hormoonSpuitDiv = document.getElementById('hormoon-spuit');
+                            if (hormoonSpuitDiv) {
+                                hormoonSpuitDiv.textContent = ''; // Clear the hormoon spuit info if present
+                            }
+                        } else if (data.error) {
+                            alert(data.error);
+                        }
+                    })
+                    .catch(error => {
+                        alert('Er is een fout opgetreden. Probeer het later opnieuw.');
+                        console.error('Error:', error);
+                    });
+                });
+            });
+
+            // Search suggestions functionality (used in multiple forms)
+            const searchInput = document.getElementById('search-input');
+            const suggestionsList = document.getElementById('suggestions');
+            const soortInput = document.getElementById('id_soort');
+            const hormoonSpuitDiv = document.getElementById('hormoon-spuit');
+            const soortIdDiv = document.getElementById('soort-id');
+
+            if (searchInput && suggestionsList && soortInput) {
+                searchInput.addEventListener('input', function() {
+                    const query = this.value.toLowerCase();
+                    suggestionsList.innerHTML = '';
+
+                    if (query.length > 1) {
+                        fetch(`/search-soorten/?query=${query}`)
+                            .then(response => response.json())
+                            .then(data => {
+                                data.results.forEach(result => {
+                                    const li = document.createElement('li');
+                                    li.textContent = result.name;
+                                    li.dataset.id = result.id;  // Store the "soort" ID
+                                    li.onclick = () => {
+                                        searchInput.value = result.name;
+                                        soortInput.value = result.id;  // Set the selected "soort" ID in the form
+                                        suggestionsList.innerHTML = '';
+
+                                        // Fetch and display the hormoon_spuit value if the element exists
+                                        if (hormoonSpuitDiv) {
+                                            fetch(`/get-hormoon-spuit/?soort_id=${result.id}`)
+                                                .then(response => response.json())
+                                                .then(data => {
+                                                    hormoonSpuitDiv.textContent = `Hormoon spuit percentage: ${data.hormoon_spuit}%`;
+                                                });
+                                            soortIdDiv.textContent = `soortID is: ${soortInput.value}`;
+                                        }
+                                    };
+                                    suggestionsList.appendChild(li);
+                                });
+                            });
+                    }
+                });
+            }
+        });
+    </script>
+    {% endblock %}
+
+</body>
+</html>
